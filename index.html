@@ -10,748 +10,290 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-:root {
-–red: #C8001A;
-–red-deep: #8B0010;
-–red-glow: #FF2235;
-–charcoal: #0E0405;
-–dark: #160809;
-–gold: #D4A843;
-–gold-light: #F0C860;
-–cream: #FFF8F0;
-–muted: rgba(255,255,255,0.45);
-}
-
 html, body {
-width: 100%;
-overflow-x: hidden;
-background: #111;
+width: 100%; overflow-x: hidden; background: #111;
 font-family: ‘DM Sans’, sans-serif;
 -webkit-print-color-adjust: exact !important;
 print-color-adjust: exact !important;
 }
+body { display: flex; flex-direction: column; align-items: center; padding: 16px 12px 100px; min-height: 100vh; }
 
-body {
-display: flex;
-flex-direction: column;
-align-items: center;
-padding: 16px 12px 100px;
-min-height: 100vh;
-gap: 0;
-}
+.page-label { color: rgba(255,255,255,0.25); font-size: 9px; letter-spacing: 3px; text-transform: uppercase; text-align: center; margin-bottom: 12px; }
 
-.page-label {
-color: rgba(255,255,255,0.25);
-font-size: 9px;
-letter-spacing: 3px;
-text-transform: uppercase;
-text-align: center;
-margin-bottom: 12px;
-}
-
-/* ═══ POSTER WRAPPER ═══ */
-.poster-wrap {
-width: 100%;
-max-width: 540px;
-}
-
-/* Portrait 3:4 ratio */
-.poster-aspect {
-width: 100%;
-position: relative;
-padding-bottom: 100%;
-}
-
+.poster-wrap { width: 100%; max-width: 540px; }
+.poster-aspect { width: 100%; position: relative; padding-bottom: 100%; }
 .poster {
-position: absolute;
-inset: 0;
-background-color: #0E0405;
-overflow: hidden;
+position: absolute; inset: 0; overflow: hidden;
+background-color: #0D0304 !important;
 -webkit-print-color-adjust: exact !important;
 print-color-adjust: exact !important;
 }
 
-/* ── BG ── */
-.bg-base { position: absolute; inset: 0; background-color: #0E0405; z-index: 0; }
-
-.bg-radial {
+.bg-base { position: absolute; inset: 0; background-color: #0D0304; z-index: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+.bg-glow {
 position: absolute; inset: 0; z-index: 1;
-background:
-radial-gradient(ellipse 100% 50% at 50% 100%, rgba(200,0,26,0.35) 0%, transparent 65%),
-radial-gradient(ellipse 60% 40% at 100% 0%, rgba(139,0,16,0.2) 0%, transparent 55%);
--webkit-print-color-adjust: exact !important;
-print-color-adjust: exact !important;
+background: radial-gradient(ellipse 90% 55% at 50% 110%, rgba(180,0,20,0.38) 0%, transparent 65%),
+radial-gradient(ellipse 50% 40% at 95% 5%, rgba(120,0,10,0.22) 0%, transparent 55%);
+-webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
+}
+.cres {
+position: absolute; top: -12%; right: -10%; width: 44%; aspect-ratio: 1;
+border-radius: 50%; border: 1.5px solid rgba(212,168,67,0.1); z-index: 2;
+}
+.cres::after {
+content: ‘’; position: absolute; top: 8%; right: 12%; width: 80%; height: 80%;
+border-radius: 50%; background: #0D0304;
+-webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
+}
+.star { position: absolute; border-radius: 50%; background: rgba(212,168,67,0.55); z-index: 3; }
+.redbar {
+position: absolute; left: 0; top: 0; bottom: 0; width: 3px; z-index: 4;
+background: linear-gradient(to bottom, transparent, #C8001A 20%, #C8001A 80%, transparent);
+-webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
 }
 
-/* Crescent moon deco */
-.crescent {
-position: absolute;
-top: -5%;
-right: -8%;
-width: 42%;
-aspect-ratio: 1;
-border-radius: 50%;
-border: 2px solid rgba(212,168,67,0.12);
-z-index: 2;
--webkit-print-color-adjust: exact !important;
-print-color-adjust: exact !important;
-}
-.crescent::before {
-content: ‘’;
-position: absolute;
-top: 6%; right: 10%;
-width: 82%; height: 82%;
-border-radius: 50%;
-background: #0E0405;
--webkit-print-color-adjust: exact !important;
-print-color-adjust: exact !important;
-}
-.crescent-2 {
-position: absolute;
-top: -8%; right: -11%;
-width: 50%; aspect-ratio: 1;
-border-radius: 50%;
-border: 1px solid rgba(212,168,67,0.06);
-z-index: 2;
-}
-
-/* Stars */
-.star {
-position: absolute;
-border-radius: 50%;
-background: rgba(212,168,67,0.5);
-z-index: 3;
-}
-
-/* Vertical red accent bar */
-.red-bar {
-position: absolute;
-left: 0; top: 0; bottom: 0;
-width: 4px;
-background: linear-gradient(to bottom, transparent 0%, #C8001A 20%, #C8001A 80%, transparent 100%);
-z-index: 4;
--webkit-print-color-adjust: exact !important;
-print-color-adjust: exact !important;
-}
-
-/* ── CONTENT ── */
+/* CONTENT */
 .content {
-position: absolute;
-inset: 0;
-z-index: 10;
-display: flex;
-flex-direction: column;
+position: absolute; inset: 0; z-index: 10;
+display: flex; flex-direction: column;
+padding: 3% 4% 2.5% 4.5%;
 justify-content: space-between;
-padding: 3% 4.5% 3% 5%;
-overflow: hidden;
 }
 
-/* TOP BADGE ROW */
-.top-badge-row {
-display: flex;
-align-items: center;
-justify-content: space-between;
-margin-bottom: 1.5%;
+/* TOP */
+.top-row { display: flex; align-items: center; justify-content: space-between; }
+.ram-badge {
+display: flex; align-items: center; gap: 5px;
+background-color: rgba(212,168,67,0.1); border: 1px solid rgba(212,168,67,0.28);
+padding: 2px 8px 2px 5px; border-radius: 2px;
 }
-.ramadan-badge {
-display: flex;
-align-items: center;
-gap: 6px;
-background-color: rgba(212,168,67,0.12);
-border: 1px solid rgba(212,168,67,0.3);
-padding: 3px 10px 3px 7px;
-border-radius: 2px;
-}
-.crescent-icon {
-font-size: clamp(10px, 2.5vw, 14px);
-}
-.ramadan-text {
-font-size: clamp(7px, 1.6vw, 10px);
-letter-spacing: 0.25em;
-text-transform: uppercase;
-color: var(–gold);
-font-weight: 500;
-}
-.bdc-badge {
-font-size: clamp(7px, 1.5vw, 9px);
-letter-spacing: 0.2em;
-text-transform: uppercase;
-color: rgba(255,255,255,0.35);
-border: 1px solid rgba(255,255,255,0.1);
-padding: 3px 8px;
-}
+.ram-badge .moon { font-size: clamp(9px,1.8vw,12px); }
+.ram-badge .txt { font-size: clamp(6px,1.4vw,8.5px); letter-spacing: 0.22em; text-transform: uppercase; color: #D4A843; font-weight: 500; }
+.bdc-pill { font-size: clamp(6px,1.3vw,8px); letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.35); border: 1px solid rgba(255,255,255,0.1); padding: 2px 7px; }
 
-/* HEADLINE BLOCK */
-.headline-block {
-margin-bottom: 1.5%;
-font-size: clamp(7px, 1.8vw, 11px);
-letter-spacing: 0.3em;
-text-transform: uppercase;
-color: var(–red-glow);
-margin-bottom: 2%;
-display: flex;
-align-items: center;
-gap: 8px;
-}
-.headline-sub::before {
-content: ‘’;
-display: block;
-width: 20px;
-height: 1px;
-background: var(–red-glow);
--webkit-print-color-adjust: exact !important;
-print-color-adjust: exact !important;
-}
-.headline-main {
-font-family: ‘Bebas Neue’, sans-serif;
-font-size: clamp(22px, 6.5vw, 38px);
-line-height: 0.9;
-color: white;
-letter-spacing: 0.02em;
-}
-.headline-main .acc {
-color: var(–red-glow);
-display: block;
-}
-.headline-tagline {
-font-family: ‘Playfair Display’, serif;
-font-style: italic;
-font-size: clamp(8px, 1.7vw, 11px);
-color: rgba(255,255,255,0.5);
-margin-top: 4px;
-line-height: 1.4;
-}
+/* HEADLINE */
+.hl-row { display: flex; align-items: flex-start; gap: 4%; }
+.hl-left {}
+.hl-sub { font-size: clamp(6px,1.3vw,8px); letter-spacing: 0.28em; text-transform: uppercase; color: #FF2235; margin-bottom: 2px; display: flex; align-items: center; gap: 5px; }
+.hl-sub::before { content: ‘’; display: block; width: 14px; height: 1px; background: #FF2235; flex-shrink: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+.hl-main { font-family: ‘Bebas Neue’, sans-serif; font-size: clamp(16px,5vw,30px); line-height: 0.9; color: white; letter-spacing: 0.02em; }
+.hl-main .acc { color: #FF2235; display: block; }
+.hl-right { flex: 1; padding-top: 2px; }
+.hl-tag { font-family: ‘Playfair Display’, serif; font-style: italic; font-size: clamp(6.5px,1.5vw,9.5px); color: rgba(255,255,255,0.45); line-height: 1.45; border-left: 2px solid rgba(200,0,26,0.45); padding-left: 7px; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
 
 /* DIVIDER */
-.divider {
-display: flex;
-align-items: center;
-gap: 10px;
-margin-bottom: 1.5%;
-}
-.divider-line {
-flex: 1;
-height: 1px;
-background: linear-gradient(90deg, rgba(200,0,26,0.8), rgba(200,0,26,0.1));
--webkit-print-color-adjust: exact !important;
-print-color-adjust: exact !important;
-}
-.divider-dot {
-width: 5px; height: 5px;
-border-radius: 50%;
-background: var(–red);
--webkit-print-color-adjust: exact !important;
-print-color-adjust: exact !important;
-}
-.divider-label {
-font-size: clamp(7px, 1.5vw, 9px);
-letter-spacing: 0.3em;
-text-transform: uppercase;
-color: rgba(255,255,255,0.3);
-white-space: nowrap;
-}
+.div { display: flex; align-items: center; gap: 6px; }
+.div-line { flex: 1; height: 1px; background: linear-gradient(90deg,rgba(200,0,26,0.7),rgba(200,0,26,0.05)); -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+.div-dot { width: 4px; height: 4px; border-radius: 50%; background: #C8001A; flex-shrink: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+.div-lbl { font-size: clamp(5.5px,1.2vw,7.5px); letter-spacing: 0.28em; text-transform: uppercase; color: rgba(255,255,255,0.26); white-space: nowrap; }
 
-/* ── EVENT CARDS ── */
-.events {
-display: flex;
-flex-direction: column;
-gap: 1%;
-flex: 1;
-margin-bottom: 1.5%;
-}
+/* EVENT CARDS */
+.events { display: flex; flex-direction: column; gap: 1%; }
 
-.event-card {
-background-color: rgba(255,255,255,0.04);
-border: 1px solid rgba(255,255,255,0.07);
-border-left: 3px solid var(–red);
-padding: 2.5% 3.5%;
-position: relative;
-overflow: hidden;
--webkit-print-color-adjust: exact !important;
-print-color-adjust: exact !important;
+.ecard {
+background-color: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
+border-left: 3px solid #C8001A; padding: 2% 2.5%;
+-webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
 }
-.event-card::before {
-content: ‘’;
-position: absolute;
-top: 0; right: 0; bottom: 0;
-width: 30%;
-background: linear-gradient(90deg, transparent, rgba(200,0,26,0.04));
--webkit-print-color-adjust: exact !important;
-print-color-adjust: exact !important;
-}
+.ecard-top { display: flex; align-items: center; gap: 2.5%; margin-bottom: 1%; }
+.edate { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.enum { font-family: ‘Bebas Neue’, sans-serif; font-size: clamp(18px,5vw,30px); line-height: 1; letter-spacing: 0.02em; }
+.einfo { display: flex; flex-direction: column; }
+.eday { font-size: clamp(5.5px,1.2vw,7.5px); letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.42); }
+.emonth { font-size: clamp(6px,1.3vw,8px); font-weight: 600; color: rgba(255,255,255,0.68); text-transform: uppercase; letter-spacing: 0.05em; }
+.evenue { flex: 1; min-width: 0; }
+.ename { font-size: clamp(8px,2vw,12px); font-weight: 600; color: white; line-height: 1.2; }
+.eaddr { font-size: clamp(6px,1.3vw,8px); color: rgba(255,255,255,0.36); margin-top: 1px; line-height: 1.3; }
+.etgt { flex-shrink: 0; text-align: right; }
+.etgt-lbl { font-size: clamp(5px,1.1vw,6.5px); letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.28); }
+.etgt-num { font-family: ‘Bebas Neue’, sans-serif; font-size: clamp(16px,4.5vw,28px); line-height: 1; display: block; cursor: text; border-bottom: 1px dashed rgba(212,168,67,0.4); min-width: 18px; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+.etgt-unit { font-size: clamp(5px,1vw,6.5px); letter-spacing: 0.15em; text-transform: uppercase; color: rgba(212,168,67,0.4); }
+.ecard-bot { display: flex; align-items: center; justify-content: space-between; padding-top: 1%; border-top: 1px solid rgba(255,255,255,0.06); }
+.etime { display: flex; align-items: center; gap: 4px; font-size: clamp(6.5px,1.5vw,9.5px); color: rgba(255,255,255,0.52); font-weight: 500; }
+.etags { display: flex; gap: 3px; flex-wrap: wrap; justify-content: flex-end; }
+.etag { font-size: clamp(5px,1.1vw,7px); letter-spacing: 0.18em; text-transform: uppercase; color: #FF2235; background: rgba(200,0,26,0.1); border: 1px solid rgba(200,0,26,0.22); padding: 2px 5px; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+.etag.gold { color: #D4A843; background: rgba(212,168,67,0.08); border-color: rgba(212,168,67,0.25); }
 
-.event-top {
-display: flex;
-align-items: flex-start;
-justify-content: space-between;
-gap: 4%;
-margin-bottom: 1.5%;
+/* BDC CONTACT */
+.contact {
+background-color: rgba(200,0,26,0.1); border: 1px solid rgba(200,0,26,0.22);
+padding: 2% 2.5%;
+-webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
 }
+.ctitle { font-size: clamp(5.5px,1.2vw,7.5px); letter-spacing: 0.26em; text-transform: uppercase; color: #FF2235; margin-bottom: 1.5%; display: flex; align-items: center; gap: 5px; }
+.ctitle::before { content: ‘’; display: block; width: 10px; height: 1px; background: #FF2235; flex-shrink: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+.cgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5% 4%; }
+.clbl { font-size: clamp(5px,1.1vw,6.5px); letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.26); }
+.cval { font-size: clamp(7px,1.6vw,10px); color: rgba(255,255,255,0.72); font-weight: 500; line-height: 1.3; }
+.cval.gold { color: #F0C860 !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
 
-.event-date-block {
-display: flex;
-align-items: center;
-gap: 8px;
-flex-shrink: 0;
-}
-.event-day-num {
-font-family: ‘Bebas Neue’, sans-serif;
-font-size: clamp(24px, 6vw, 38px);
-color: #D4A843 !important;
-line-height: 1;
-letter-spacing: 0.02em;
--webkit-print-color-adjust: exact !important;
-print-color-adjust: exact !important;
-}
-.event-day-info {
-display: flex;
-flex-direction: column;
-}
-.event-day-name {
-font-size: clamp(7px, 1.6vw, 10px);
-letter-spacing: 0.2em;
-text-transform: uppercase;
-color: rgba(255,255,255,0.5);
-line-height: 1.2;
-}
-.event-month {
-font-size: clamp(8px, 1.8vw, 11px);
-font-weight: 600;
-color: rgba(255,255,255,0.7);
-letter-spacing: 0.05em;
-text-transform: uppercase;
-}
+/* BOTTOM */
+.bstrip { display: flex; align-items: center; justify-content: space-between; padding-top: 1.5%; border-top: 1px solid rgba(255,255,255,0.07); }
+.blogo { font-family: ‘Bebas Neue’, sans-serif; font-size: clamp(8px,1.8vw,12px); color: rgba(255,255,255,0.18); letter-spacing: 0.1em; }
+.bdrop { display: flex; align-items: center; gap: 3px; font-size: clamp(5.5px,1.2vw,8px); letter-spacing: 0.12em; color: rgba(200,0,26,0.38); }
+.bhash { font-size: clamp(5.5px,1.2vw,8px); letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.16); }
 
-/* Target pill */
-.target-pill {
-display: flex;
-flex-direction: column;
-align-items: flex-end;
-flex-shrink: 0;
-}
-.target-label {
-font-size: clamp(6px, 1.3vw, 8px);
-letter-spacing: 0.2em;
-text-transform: uppercase;
-color: rgba(255,255,255,0.3);
-margin-bottom: 2px;
-}
-.target-num {
-font-family: ‘Bebas Neue’, sans-serif;
-font-size: clamp(20px, 5.5vw, 34px);
-color: #D4A843 !important;
-line-height: 1;
-letter-spacing: 0.02em;
-cursor: text;
-border-bottom: 1px dashed rgba(212,168,67,0.5);
-min-width: 24px;
-text-align: right;
--webkit-print-color-adjust: exact !important;
-print-color-adjust: exact !important;
-}
-.target-unit {
-font-size: clamp(6px, 1.2vw, 8px);
-color: rgba(212,168,67,0.5);
-letter-spacing: 0.15em;
-text-transform: uppercase;
-text-align: right;
-}
-
-.event-detail {
-display: flex;
-flex-direction: column;
-gap: 3px;
-flex: 1;
-margin-top: 1%;
-}
-.event-venue {
-font-family: ‘DM Sans’, sans-serif;
-font-weight: 600;
-font-size: clamp(10px, 2.5vw, 15px);
-color: white;
-line-height: 1.2;
-}
-.event-venue-sub {
-font-size: clamp(8px, 1.8vw, 10px);
-color: rgba(255,255,255,0.4);
-line-height: 1.3;
-}
-
-.event-bottom {
-display: flex;
-align-items: center;
-justify-content: space-between;
-margin-top: 1.5%;
-padding-top: 1.5%;
-border-top: 1px solid rgba(255,255,255,0.06);
-}
-.event-time {
-display: flex;
-align-items: center;
-gap: 5px;
-font-size: clamp(8px, 1.9vw, 12px);
-color: rgba(255,255,255,0.6);
-font-weight: 500;
-}
-.event-time svg { flex-shrink: 0; }
-.event-type-tag {
-font-size: clamp(6px, 1.3vw, 8px);
-letter-spacing: 0.2em;
-text-transform: uppercase;
-color: var(–red-glow);
-background: rgba(200,0,26,0.1);
-border: 1px solid rgba(200,0,26,0.2);
-padding: 2px 7px;
-border-radius: 1px;
-}
-
-/* ── BDC CONTACT FOOTER ── */
-.contact-footer {
-background-color: rgba(200,0,26,0.12);
-border: 1px solid rgba(200,0,26,0.25);
-padding: 2% 3%;
-margin-bottom: 1.5%;
--webkit-print-color-adjust: exact !important;
-print-color-adjust: exact !important;
-}
-.contact-title {
-font-size: clamp(7px, 1.5vw, 9px);
-letter-spacing: 0.3em;
-text-transform: uppercase;
-color: var(–red-glow);
-margin-bottom: 2%;
-display: flex;
-align-items: center;
-gap: 6px;
-}
-.contact-title::before {
-content: ‘’;
-display: block;
-width: 12px;
-height: 1px;
-background: var(–red-glow);
-}
-.contact-grid {
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 3% 4%;
-}
-.contact-item {
-display: flex;
-flex-direction: column;
-gap: 1px;
-}
-.contact-item-label {
-font-size: clamp(6px, 1.2vw, 7.5px);
-letter-spacing: 0.2em;
-text-transform: uppercase;
-color: rgba(255,255,255,0.3);
-}
-.contact-item-val {
-font-size: clamp(8px, 1.9vw, 11px);
-color: rgba(255,255,255,0.75);
-font-weight: 500;
-line-height: 1.3;
-}
-.contact-item-val.highlight {
-color: var(–gold-light);
-}
-
-/* ── BOTTOM STRIP ── */
-.bottom-strip {
-display: flex;
-align-items: center;
-justify-content: space-between;
-padding-top: 2%;
-border-top: 1px solid rgba(255,255,255,0.07);
-}
-.bottom-logo {
-font-family: ‘Bebas Neue’, sans-serif;
-font-size: clamp(10px, 2.5vw, 16px);
-color: rgba(255,255,255,0.2);
-letter-spacing: 0.1em;
-}
-.bottom-hashtag {
-font-size: clamp(7px, 1.5vw, 9px);
-letter-spacing: 0.2em;
-text-transform: uppercase;
-color: rgba(255,255,255,0.2);
-}
-.bottom-drop {
-display: flex;
-align-items: center;
-gap: 4px;
-font-size: clamp(7px, 1.5vw, 9px);
-letter-spacing: 0.15em;
-color: rgba(200,0,26,0.4);
-}
-
-/* ── EDITABLE FIELDS ── */
-[contenteditable=“true”] {
-outline: none;
-cursor: text;
-border-radius: 1px;
-transition: background 0.15s;
-}
-[contenteditable=“true”]:focus {
-background: rgba(212,168,67,0.1);
-box-shadow: 0 0 0 1px rgba(212,168,67,0.4);
-padding: 1px 3px;
-}
-
-/* ══ EDIT PANEL ══ */
-.panel {
-width: 100%;
-max-width: 540px;
-background: #1c1c1c;
-border: 1px solid rgba(255,255,255,0.07);
-margin-top: 14px;
-padding: 16px;
-display: flex;
-flex-direction: column;
-gap: 14px;
-}
-.panel-title {
-font-size: 9px;
-letter-spacing: 3px;
-text-transform: uppercase;
-color: rgba(255,255,255,0.3);
-padding-bottom: 10px;
-border-bottom: 1px solid rgba(255,255,255,0.07);
-}
-.section-label {
-font-size: 8px;
-letter-spacing: 2px;
-text-transform: uppercase;
-color: var(–red-glow);
-opacity: 0.7;
-margin-bottom: -6px;
-}
-.field-row { display: flex; flex-direction: column; gap: 4px; }
-.field-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.3); }
-.field-input {
-background: rgba(255,255,255,0.05);
-border: 1px solid rgba(255,255,255,0.1);
-color: white;
-font-family: ‘DM Sans’, sans-serif;
-font-size: 13px;
-padding: 8px 11px;
-outline: none;
-border-radius: 2px;
-transition: border-color 0.2s;
-width: 100%;
-}
-.field-input:focus { border-color: var(–gold); background: rgba(212,168,67,0.04); }
-.fields-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
-/* BUTTONS */
-.btn-row {
-width: 100%;
-max-width: 540px;
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 10px;
-margin-top: 10px;
-}
-.btn {
-background: rgba(255,255,255,0.06);
-color: rgba(255,255,255,0.7);
-border: 1px solid rgba(255,255,255,0.12);
-padding: 13px 10px;
-font-family: ‘DM Sans’, sans-serif;
-font-size: 11px;
-font-weight: 500;
-letter-spacing: 2px;
-text-transform: uppercase;
-cursor: pointer;
-border-radius: 2px;
-transition: all 0.2s;
-display: flex;
-align-items: center;
-justify-content: center;
-gap: 6px;
-}
-.btn:hover { background: rgba(200,0,26,0.25); border-color: var(–red); color: white; }
-.btn.primary { background: var(–red); border-color: var(–red); color: white; }
-.btn.primary:hover { background: #e0001e; }
+/* EDIT PANEL */
+.panel { width: 100%; max-width: 540px; background: #1c1c1c; border: 1px solid rgba(255,255,255,0.07); margin-top: 14px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.panel-title { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.3); padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+.slbl { font-size: 8px; letter-spacing: 2px; text-transform: uppercase; color: #FF2235; opacity: 0.7; margin-bottom: -4px; }
+.frow { display: flex; flex-direction: column; gap: 4px; }
+.flbl { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+.fi { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; font-family: ‘DM Sans’, sans-serif; font-size: 13px; padding: 8px 11px; outline: none; border-radius: 2px; width: 100%; transition: border-color 0.2s; }
+.fi:focus { border-color: #D4A843; background: rgba(212,168,67,0.04); }
+.fg { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.btn-row { width: 100%; max-width: 540px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+.btn { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.12); padding: 13px 10px; font-family: ‘DM Sans’, sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; border-radius: 2px; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s; }
+.btn:hover { background: rgba(200,0,26,0.25); border-color: #C8001A; color: white; }
+.btn.p { background: #C8001A; border-color: #C8001A; color: white; }
+.btn.p:hover { background: #e0001e; }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
-.tip {
-font-size: 9px;
-letter-spacing: 1.5px;
-color: rgba(255,255,255,0.18);
-text-transform: uppercase;
-text-align: center;
-margin-top: 8px;
-max-width: 480px;
-width: 100%;
-line-height: 1.8;
-}
-.saving-msg {
-display: none;
-font-size: 11px;
-letter-spacing: 2px;
-color: var(–gold);
-text-transform: uppercase;
-text-align: center;
-margin-top: 6px;
-width: 100%;
-max-width: 480px;
-}
+.smsg { display: none; font-size: 11px; letter-spacing: 2px; color: #D4A843; text-transform: uppercase; text-align: center; margin-top: 6px; }
+.tip { font-size: 9px; letter-spacing: 1.5px; color: rgba(255,255,255,0.18); text-transform: uppercase; text-align: center; margin-top: 8px; max-width: 540px; width: 100%; line-height: 1.8; }
 </style>
 
 </head>
 <body>
 
-<p class="page-label">Ramadan Blood Donation Schedule Poster</p>
-
-<!-- ══ POSTER ══ -->
+<p class="page-label">Ramadan Blood Donation — Square Post</p>
 
 <div class="poster-wrap">
   <div class="poster-aspect">
     <div class="poster" id="poster">
+      <div class="bg-base"></div>
+      <div class="bg-glow"></div>
+      <div class="cres"></div>
+      <div class="star" style="width:2px;height:2px;top:7%;left:55%;"></div>
+      <div class="star" style="width:2px;height:2px;top:11%;left:71%;opacity:0.5"></div>
+      <div class="star" style="width:1.5px;height:1.5px;top:5%;left:82%;opacity:0.65"></div>
+      <div class="star" style="width:1.5px;height:1.5px;top:17%;left:64%;opacity:0.3"></div>
+      <div class="redbar"></div>
 
 ```
-  <!-- BG -->
-  <div class="bg-base"></div>
-  <div class="bg-radial"></div>
-  <div class="crescent-2"></div>
-  <div class="crescent"></div>
-  <!-- Stars -->
-  <div class="star" style="width:2px;height:2px;top:8%;left:55%;opacity:0.6"></div>
-  <div class="star" style="width:3px;height:3px;top:12%;left:70%;opacity:0.4"></div>
-  <div class="star" style="width:2px;height:2px;top:6%;left:80%;opacity:0.7"></div>
-  <div class="star" style="width:2px;height:2px;top:16%;left:62%;opacity:0.3"></div>
-  <div class="star" style="width:1.5px;height:1.5px;top:20%;left:88%;opacity:0.5"></div>
-  <div class="red-bar"></div>
-
-  <!-- CONTENT -->
   <div class="content">
 
-    <!-- TOP BADGE ROW -->
-    <div class="top-badge-row">
-      <div class="ramadan-badge">
-        <span class="crescent-icon">☽</span>
-        <span class="ramadan-text" id="p_ramadanlabel">Ramadan 1446H · March 2026</span>
+    <!-- TOP -->
+    <div class="top-row">
+      <div class="ram-badge">
+        <span class="moon">☽</span>
+        <span class="txt" id="p_ramlabel">Ramadan 1446H · March 2026</span>
       </div>
-      <div class="bdc-badge">BDC RIPAS</div>
+      <div class="bdc-pill">BDC RIPAS</div>
     </div>
 
     <!-- HEADLINE -->
-    <div class="headline-block">
-      <div class="headline-sub">Evening Blood Drive</div>
-      <div class="headline-main">
-        Donate<br>
-        <span class="acc">Blood</span>
-        This<br>Ramadan
+    <div class="hl-row">
+      <div class="hl-left">
+        <div class="hl-sub">Evening Blood Drive</div>
+        <div class="hl-main">
+          Donate<br>
+          <span class="acc">Blood</span>
+          This<br>Ramadan
+        </div>
       </div>
-      <p class="headline-tagline" id="p_tagline">"Every drop matters — give the gift of life during this blessed month"</p>
+      <div class="hl-right">
+        <p class="hl-tag" id="p_tagline">"Every drop matters — give the gift of life during this blessed month"</p>
+      </div>
     </div>
 
     <!-- DIVIDER -->
-    <div class="divider">
-      <div class="divider-line"></div>
-      <div class="divider-dot"></div>
-      <span class="divider-label">Remaining Schedule</span>
-      <div class="divider-dot"></div>
-      <div class="divider-line" style="background:linear-gradient(270deg,rgba(200,0,26,0.8),rgba(200,0,26,0.1))"></div>
+    <div class="div">
+      <div class="div-line"></div>
+      <div class="div-dot"></div>
+      <span class="div-lbl">Remaining Schedule</span>
+      <div class="div-dot"></div>
+      <div class="div-line" style="background:linear-gradient(270deg,rgba(200,0,26,0.7),rgba(200,0,26,0.05))"></div>
     </div>
 
-    <!-- EVENT CARDS -->
+    <!-- EVENTS -->
     <div class="events">
 
-      <!-- Event 1: 17 March — Annajat -->
-      <div class="event-card">
-        <div class="event-top">
-          <div class="event-date-block">
-            <div class="event-day-num" id="p_d1_num" style="color:#D4A843">17</div>
-            <div class="event-day-info">
-              <span class="event-day-name" id="p_d1_day">Monday</span>
-              <span class="event-month">March 2026</span>
+      <!-- 17 Annajat -->
+      <div class="ecard">
+        <div class="ecard-top">
+          <div class="edate">
+            <div class="enum" style="color:#D4A843 !important" id="p_d1_num">17</div>
+            <div class="einfo">
+              <span class="eday" id="p_d1_day">Monday</span>
+              <span class="emonth">March 2026</span>
             </div>
           </div>
-          <div class="event-detail">
-            <div class="event-venue" id="p_d1_venue">Annajat Complex</div>
-            <div class="event-venue-sub" id="p_d1_addr">2nd Floor, Kampong Beribi, BSB</div>
+          <div class="evenue">
+            <div class="ename" id="p_d1_venue">Annajat Complex</div>
+            <div class="eaddr" id="p_d1_addr">2nd Floor, Kampong Beribi, BSB</div>
           </div>
-          <div class="target-pill">
-            <span class="target-label">Target</span>
-            <span class="target-num" id="p_d1_target" contenteditable="true">50</span>
-            <span class="target-unit">donors</span>
+          <div class="etgt">
+            <div class="etgt-lbl">Target</div>
+            <span class="etgt-num" style="color:#D4A843 !important" id="p_d1_target" contenteditable="true">50</span>
+            <div class="etgt-unit">donors</div>
           </div>
         </div>
-        <div class="event-bottom">
-          <div class="event-time">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2">
-              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-            </svg>
+        <div class="ecard-bot">
+          <div class="etime">
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             <span id="p_d1_time">8:00 PM – 10:00 PM</span>
           </div>
-          <span class="event-type-tag">Evening</span>
+          <div class="etags"><span class="etag">Evening</span></div>
         </div>
       </div>
 
-      <!-- Event 2: 18 March — OneCity -->
-      <div class="event-card">
-        <div class="event-top">
-          <div class="event-date-block">
-            <div class="event-day-num" id="p_d2_num" style="color:#D4A843">18</div>
-            <div class="event-day-info">
-              <span class="event-day-name" id="p_d2_day">Tuesday</span>
-              <span class="event-month">March 2026</span>
+      <!-- 18 OneCity -->
+      <div class="ecard">
+        <div class="ecard-top">
+          <div class="edate">
+            <div class="enum" style="color:#D4A843 !important" id="p_d2_num">18</div>
+            <div class="einfo">
+              <span class="eday" id="p_d2_day">Tuesday</span>
+              <span class="emonth">March 2026</span>
             </div>
           </div>
-          <div class="event-detail">
-            <div class="event-venue" id="p_d2_venue">OneCity Shopping Centre</div>
-            <div class="event-venue-sub" id="p_d2_addr">Jln Utama Salambigar, Sg Hanching, Berakas</div>
+          <div class="evenue">
+            <div class="ename" id="p_d2_venue">OneCity Shopping Centre</div>
+            <div class="eaddr" id="p_d2_addr">Jln Utama Salambigar, Sg Hanching, Berakas</div>
           </div>
-          <div class="target-pill">
-            <span class="target-label">Target</span>
-            <span class="target-num" id="p_d2_target" contenteditable="true">50</span>
-            <span class="target-unit">donors</span>
+          <div class="etgt">
+            <div class="etgt-lbl">Target</div>
+            <span class="etgt-num" style="color:#D4A843 !important" id="p_d2_target" contenteditable="true">50</span>
+            <div class="etgt-unit">donors</div>
           </div>
         </div>
-        <div class="event-bottom">
-          <div class="event-time">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2">
-              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-            </svg>
+        <div class="ecard-bot">
+          <div class="etime">
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             <span id="p_d2_time">8:00 PM – 10:00 PM</span>
           </div>
-          <span class="event-type-tag">Evening</span>
+          <div class="etags"><span class="etag">Evening</span></div>
         </div>
       </div>
 
-      <!-- Event 3: 19 March — RIPAS BDC -->
-      <div class="event-card" style="border-left-color: var(--gold);">
-        <div class="event-top">
-          <div class="event-date-block">
-            <div class="event-day-num" id="p_d3_num" style="color:#D4A843">19</div>
-            <div class="event-day-info">
-              <span class="event-day-name" id="p_d3_day">Wednesday</span>
-              <span class="event-month">March 2026</span>
+      <!-- 19 RIPAS BDC -->
+      <div class="ecard" style="border-left-color:#D4A843">
+        <div class="ecard-top">
+          <div class="edate">
+            <div class="enum" style="color:#D4A843 !important" id="p_d3_num">19</div>
+            <div class="einfo">
+              <span class="eday" id="p_d3_day">Wednesday</span>
+              <span class="emonth">March 2026</span>
             </div>
           </div>
-          <div class="event-detail">
-            <div class="event-venue" id="p_d3_venue">RIPAS Hospital — BDC</div>
-            <div class="event-venue-sub" id="p_d3_addr">Grd Floor, Block 8, Kampong Kiulap, BSB BE1518</div>
+          <div class="evenue">
+            <div class="ename" id="p_d3_venue">RIPAS Hospital — BDC</div>
+            <div class="eaddr" id="p_d3_addr">Grd Floor, Block 8, Kampong Kiulap, BSB BE1518</div>
           </div>
-          <div class="target-pill">
-            <span class="target-label">Target</span>
-            <span class="target-num" id="p_d3_target" contenteditable="true">50</span>
-            <span class="target-unit">donors</span>
+          <div class="etgt">
+            <div class="etgt-lbl">Target</div>
+            <span class="etgt-num" style="color:#D4A843 !important" id="p_d3_target" contenteditable="true">50</span>
+            <div class="etgt-unit">donors</div>
           </div>
         </div>
-        <div class="event-bottom">
-          <div class="event-time">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2">
-              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-            </svg>
+        <div class="ecard-bot">
+          <div class="etime">
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             <span id="p_d3_time">8:00 PM – 10:00 PM</span>
           </div>
-          <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end">
-            <span class="event-type-tag">Evening</span>
-            <span class="event-type-tag" style="color:var(--gold);border-color:rgba(212,168,67,0.3);background:rgba(212,168,67,0.08)">Main Centre</span>
+          <div class="etags">
+            <span class="etag">Evening</span>
+            <span class="etag gold">Main Centre</span>
           </div>
         </div>
       </div>
@@ -759,167 +301,97 @@ max-width: 480px;
     </div><!-- /events -->
 
     <!-- BDC CONTACT -->
-    <div class="contact-footer">
-      <div class="contact-title">Blood Donation Centre (BDC) — RIPAS Hospital</div>
-      <div class="contact-grid">
-        <div class="contact-item">
-          <span class="contact-item-label">Hotline</span>
-          <span class="contact-item-val highlight" id="p_tel1">+673 2242424 ext 5745</span>
+    <div class="contact">
+      <div class="ctitle">Blood Donation Centre (BDC) — RIPAS Hospital</div>
+      <div class="cgrid">
+        <div>
+          <div class="clbl">Hotline</div>
+          <div class="cval gold" id="p_tel1">+673 2242424 ext 5745</div>
         </div>
-        <div class="contact-item">
-          <span class="contact-item-label">Direct Line</span>
-          <span class="contact-item-val highlight" id="p_tel2">+673 7440267 / 7440277</span>
+        <div>
+          <div class="clbl">WhatsApp / Direct</div>
+          <div class="cval gold" id="p_tel2">+673 7440267 / 7440277</div>
         </div>
-        <div class="contact-item">
-          <span class="contact-item-label">Instagram</span>
-          <span class="contact-item-val" id="p_ig">@bloodbank_ripas</span>
+        <div>
+          <div class="clbl">Instagram</div>
+          <div class="cval" id="p_ig">@bloodbank_ripas</div>
         </div>
-        <div class="contact-item">
-          <span class="contact-item-label">Book a Slot</span>
-          <span class="contact-item-val" id="p_app">BloodKad App</span>
+        <div>
+          <div class="clbl">Book a Slot</div>
+          <div class="cval" id="p_app">BloodKad App</div>
         </div>
       </div>
     </div>
 
-    <!-- BOTTOM STRIP -->
-    <div class="bottom-strip">
-      <span class="bottom-logo">BDC · RIPAS</span>
-      <span class="bottom-drop">
-        <svg width="8" height="10" viewBox="0 0 10 13" fill="rgba(200,0,26,0.5)">
-          <path d="M5 0C5 0 0 6 0 8.5A5 5 0 0010 8.5C10 6 5 0 5 0Z"/>
-        </svg>
+    <!-- BOTTOM -->
+    <div class="bstrip">
+      <span class="blogo">BDC · RIPAS</span>
+      <span class="bdrop">
+        <svg width="6" height="8" viewBox="0 0 10 13" fill="rgba(200,0,26,0.4)"><path d="M5 0C5 0 0 6 0 8.5A5 5 0 0010 8.5C10 6 5 0 5 0Z"/></svg>
         Give Blood · Give Life
       </span>
-      <span class="bottom-hashtag">#RamadanBloodDrive</span>
+      <span class="bhash">#RamadanBloodDrive</span>
     </div>
 
-  </div><!-- /content -->
-</div><!-- /poster -->
+  </div>
+</div>
 ```
 
   </div>
-</div><!-- /poster-wrap -->
+</div>
 
-<!-- ══ EDIT PANEL ══ -->
+<!-- EDIT PANEL -->
 
 <div class="panel">
   <div class="panel-title">✏️ Edit Schedule Details</div>
 
-  <div class="section-label">Header</div>
-  <div class="field-row">
-    <label class="field-label">Ramadan Label</label>
-    <input class="field-input" id="f_ramadanlabel" value="Ramadan 1446H · March 2026" oninput="sp('p_ramadanlabel','f_ramadanlabel')">
-  </div>
-  <div class="field-row">
-    <label class="field-label">Tagline / Quote</label>
-    <input class="field-input" id="f_tagline" value="Every drop matters — give the gift of life during this blessed month" oninput="sp('p_tagline','f_tagline','&quot;','&quot;')">
-  </div>
+  <div class="slbl">Header</div>
+  <div class="frow"><label class="flbl">Ramadan Label</label><input class="fi" id="f_ramlabel" value="Ramadan 1446H · March 2026" oninput="sp('p_ramlabel','f_ramlabel')"></div>
+  <div class="frow"><label class="flbl">Tagline / Quote</label><input class="fi" id="f_tagline" value="Every drop matters — give the gift of life during this blessed month" oninput="sp('p_tagline','f_tagline','&quot;','&quot;')"></div>
 
-  <div class="section-label">📅 Event 1 — 17 March (Annajat)</div>
-  <div class="fields-grid">
-    <div class="field-row">
-      <label class="field-label">Date</label>
-      <input class="field-input" id="f_d1_num" value="17" oninput="sp('p_d1_num','f_d1_num')">
-    </div>
-    <div class="field-row">
-      <label class="field-label">Day</label>
-      <input class="field-input" id="f_d1_day" value="Monday" oninput="sp('p_d1_day','f_d1_day')">
-    </div>
-    <div class="field-row">
-      <label class="field-label">Venue Name</label>
-      <input class="field-input" id="f_d1_venue" value="Annajat Complex" oninput="sp('p_d1_venue','f_d1_venue')">
-    </div>
-    <div class="field-row">
-      <label class="field-label">Time</label>
-      <input class="field-input" id="f_d1_time" value="8:00 PM – 10:00 PM" oninput="sp('p_d1_time','f_d1_time')">
-    </div>
+  <div class="slbl">📅 Event 1 — 17 March (Annajat)</div>
+  <div class="fg">
+    <div class="frow"><label class="flbl">Date</label><input class="fi" id="f_d1_num" value="17" oninput="sp('p_d1_num','f_d1_num')"></div>
+    <div class="frow"><label class="flbl">Day</label><input class="fi" id="f_d1_day" value="Monday" oninput="sp('p_d1_day','f_d1_day')"></div>
+    <div class="frow"><label class="flbl">Venue</label><input class="fi" id="f_d1_venue" value="Annajat Complex" oninput="sp('p_d1_venue','f_d1_venue')"></div>
+    <div class="frow"><label class="flbl">Time</label><input class="fi" id="f_d1_time" value="8:00 PM – 10:00 PM" oninput="sp('p_d1_time','f_d1_time')"></div>
   </div>
-  <div class="field-row">
-    <label class="field-label">Address</label>
-    <input class="field-input" id="f_d1_addr" value="2nd Floor, Kampong Beribi, BSB" oninput="sp('p_d1_addr','f_d1_addr')">
-  </div>
+  <div class="frow"><label class="flbl">Address</label><input class="fi" id="f_d1_addr" value="2nd Floor, Kampong Beribi, BSB" oninput="sp('p_d1_addr','f_d1_addr')"></div>
 
-  <div class="section-label">📅 Event 2 — 18 March (OneCity)</div>
-  <div class="fields-grid">
-    <div class="field-row">
-      <label class="field-label">Date</label>
-      <input class="field-input" id="f_d2_num" value="18" oninput="sp('p_d2_num','f_d2_num')">
-    </div>
-    <div class="field-row">
-      <label class="field-label">Day</label>
-      <input class="field-input" id="f_d2_day" value="Tuesday" oninput="sp('p_d2_day','f_d2_day')">
-    </div>
-    <div class="field-row">
-      <label class="field-label">Venue Name</label>
-      <input class="field-input" id="f_d2_venue" value="OneCity Shopping Centre" oninput="sp('p_d2_venue','f_d2_venue')">
-    </div>
-    <div class="field-row">
-      <label class="field-label">Time</label>
-      <input class="field-input" id="f_d2_time" value="8:00 PM – 10:00 PM" oninput="sp('p_d2_time','f_d2_time')">
-    </div>
+  <div class="slbl">📅 Event 2 — 18 March (OneCity)</div>
+  <div class="fg">
+    <div class="frow"><label class="flbl">Date</label><input class="fi" id="f_d2_num" value="18" oninput="sp('p_d2_num','f_d2_num')"></div>
+    <div class="frow"><label class="flbl">Day</label><input class="fi" id="f_d2_day" value="Tuesday" oninput="sp('p_d2_day','f_d2_day')"></div>
+    <div class="frow"><label class="flbl">Venue</label><input class="fi" id="f_d2_venue" value="OneCity Shopping Centre" oninput="sp('p_d2_venue','f_d2_venue')"></div>
+    <div class="frow"><label class="flbl">Time</label><input class="fi" id="f_d2_time" value="8:00 PM – 10:00 PM" oninput="sp('p_d2_time','f_d2_time')"></div>
   </div>
-  <div class="field-row">
-    <label class="field-label">Address</label>
-    <input class="field-input" id="f_d2_addr" value="Jln Utama Salambigar, Sg Hanching, Berakas" oninput="sp('p_d2_addr','f_d2_addr')">
-  </div>
+  <div class="frow"><label class="flbl">Address</label><input class="fi" id="f_d2_addr" value="Jln Utama Salambigar, Sg Hanching, Berakas" oninput="sp('p_d2_addr','f_d2_addr')"></div>
 
-  <div class="section-label">📅 Event 3 — 19 March (RIPAS BDC)</div>
-  <div class="fields-grid">
-    <div class="field-row">
-      <label class="field-label">Date</label>
-      <input class="field-input" id="f_d3_num" value="19" oninput="sp('p_d3_num','f_d3_num')">
-    </div>
-    <div class="field-row">
-      <label class="field-label">Day</label>
-      <input class="field-input" id="f_d3_day" value="Wednesday" oninput="sp('p_d3_day','f_d3_day')">
-    </div>
-    <div class="field-row">
-      <label class="field-label">Venue Name</label>
-      <input class="field-input" id="f_d3_venue" value="RIPAS Hospital — BDC" oninput="sp('p_d3_venue','f_d3_venue')">
-    </div>
-    <div class="field-row">
-      <label class="field-label">Time</label>
-      <input class="field-input" id="f_d3_time" value="8:00 PM – 10:00 PM" oninput="sp('p_d3_time','f_d3_time')">
-    </div>
+  <div class="slbl">📅 Event 3 — 19 March (RIPAS BDC)</div>
+  <div class="fg">
+    <div class="frow"><label class="flbl">Date</label><input class="fi" id="f_d3_num" value="19" oninput="sp('p_d3_num','f_d3_num')"></div>
+    <div class="frow"><label class="flbl">Day</label><input class="fi" id="f_d3_day" value="Wednesday" oninput="sp('p_d3_day','f_d3_day')"></div>
+    <div class="frow"><label class="flbl">Venue</label><input class="fi" id="f_d3_venue" value="RIPAS Hospital — BDC" oninput="sp('p_d3_venue','f_d3_venue')"></div>
+    <div class="frow"><label class="flbl">Time</label><input class="fi" id="f_d3_time" value="8:00 PM – 10:00 PM" oninput="sp('p_d3_time','f_d3_time')"></div>
   </div>
-  <div class="field-row">
-    <label class="field-label">Address</label>
-    <input class="field-input" id="f_d3_addr" value="Grd Floor, Block 8, Kampong Kiulap, BSB BE1518" oninput="sp('p_d3_addr','f_d3_addr')">
-  </div>
+  <div class="frow"><label class="flbl">Address</label><input class="fi" id="f_d3_addr" value="Grd Floor, Block 8, Kampong Kiulap, BSB BE1518" oninput="sp('p_d3_addr','f_d3_addr')"></div>
 
-  <div class="section-label">📞 BDC Contact Info</div>
-  <div class="fields-grid">
-    <div class="field-row">
-      <label class="field-label">Hotline</label>
-      <input class="field-input" id="f_tel1" value="+673 2242424 ext 5745" oninput="sp('p_tel1','f_tel1')">
-    </div>
-    <div class="field-row">
-      <label class="field-label">Direct Line</label>
-      <input class="field-input" id="f_tel2" value="+673 7440267 / 7440277" oninput="sp('p_tel2','f_tel2')">
-    </div>
-    <div class="field-row">
-      <label class="field-label">Instagram</label>
-      <input class="field-input" id="f_ig" value="@bloodbank_ripas" oninput="sp('p_ig','f_ig')">
-    </div>
-    <div class="field-row">
-      <label class="field-label">Book a Slot</label>
-      <input class="field-input" id="f_app" value="BloodKad App" oninput="sp('p_app','f_app')">
-    </div>
+  <div class="slbl">📞 BDC Contact Info</div>
+  <div class="fg">
+    <div class="frow"><label class="flbl">Hotline</label><input class="fi" id="f_tel1" value="+673 2242424 ext 5745" oninput="sp('p_tel1','f_tel1')"></div>
+    <div class="frow"><label class="flbl">WhatsApp / Direct</label><input class="fi" id="f_tel2" value="+673 7440267 / 7440277" oninput="sp('p_tel2','f_tel2')"></div>
+    <div class="frow"><label class="flbl">Instagram</label><input class="fi" id="f_ig" value="@bloodbank_ripas" oninput="sp('p_ig','f_ig')"></div>
+    <div class="frow"><label class="flbl">Book a Slot</label><input class="fi" id="f_app" value="BloodKad App" oninput="sp('p_app','f_app')"></div>
   </div>
-
-  <p style="font-size:9px;letter-spacing:1.5px;color:rgba(255,255,255,0.25);text-transform:uppercase;">
-    💡 Tap the gold target numbers directly on the poster to edit them
-  </p>
+  <p style="font-size:9px;letter-spacing:1.5px;color:rgba(255,255,255,0.2);text-transform:uppercase;">💡 Tap the gold numbers on the poster to edit targets directly</p>
 </div>
-
-<!-- BUTTONS -->
 
 <div class="btn-row">
   <button class="btn" onclick="resetTargets()">↺ Reset Targets</button>
-  <button class="btn primary" id="saveBtn" onclick="saveImage()">⬇ Save Image</button>
+  <button class="btn p" id="saveBtn" onclick="saveImage()">⬇ Save Image</button>
 </div>
-<p class="saving-msg" id="savingMsg">⏳ Generating image…</p>
-<p class="tip">Edit all fields above · Tap gold numbers on poster to change targets · Save Image to download PNG</p>
+<p class="smsg" id="savingMsg">⏳ Generating image…</p>
+<p class="tip">Edit fields · Tap gold numbers to change targets · Save Image downloads PNG</p>
 
 <script>
   function sp(tid, sid, pre, post) {
@@ -927,52 +399,39 @@ max-width: 480px;
     const val = document.getElementById(sid).value;
     el.textContent = (pre||'') + val + (post||'');
   }
-
   function resetTargets() {
     ['p_d1_target','p_d2_target','p_d3_target'].forEach(id => {
       document.getElementById(id).textContent = '50';
     });
   }
-
   function saveImage() {
     const btn = document.getElementById('saveBtn');
     const msg = document.getElementById('savingMsg');
-    const posterEl = document.getElementById('poster');
-
-    btn.disabled = true;
-    btn.textContent = '⏳ Saving…';
-    msg.style.display = 'block';
-
-    const rect = posterEl.getBoundingClientRect();
-
-    html2canvas(posterEl, {
-      useCORS: true,
-      allowTaint: true,
-      backgroundColor: '#0E0405',
-      scale: 2.5,
-      width: rect.width,
-      height: rect.height,
-      logging: false,
-      onclone: function(clonedDoc) {
-        const cp = clonedDoc.getElementById('poster');
-        if (cp) cp.style.backgroundColor = '#0E0405';
+    btn.disabled = true; btn.textContent = '⏳ Saving…'; msg.style.display = 'block';
+    const el = document.getElementById('poster');
+    const rect = el.getBoundingClientRect();
+    html2canvas(el, {
+      useCORS: true, allowTaint: true,
+      backgroundColor: '#0D0304', scale: 2.5,
+      width: rect.width, height: rect.height, logging: false,
+      onclone: function(d) {
+        const cp = d.getElementById('poster');
+        if (cp) cp.style.backgroundColor = '#0D0304';
+        // Force gold on all enum and etgt-num in clone
+        cp.querySelectorAll('.enum, .etgt-num').forEach(function(e) {
+          e.style.color = '#D4A843';
+        });
       }
     }).then(function(canvas) {
       const link = document.createElement('a');
       link.download = 'ramadan-blood-drive-schedule.png';
       link.href = canvas.toDataURL('image/png', 1.0);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      btn.disabled = false;
-      btn.textContent = '⬇ Save Image';
-      msg.style.display = 'none';
+      document.body.appendChild(link); link.click(); document.body.removeChild(link);
+      btn.disabled = false; btn.textContent = '⬇ Save Image'; msg.style.display = 'none';
     }).catch(function(err) {
       console.error(err);
-      btn.disabled = false;
-      btn.textContent = '⬇ Save Image';
-      msg.style.display = 'none';
-      alert('Could not auto-save. Please screenshot the poster instead.');
+      btn.disabled = false; btn.textContent = '⬇ Save Image'; msg.style.display = 'none';
+      alert('Could not auto-save. Please screenshot instead.');
     });
   }
 </script>
